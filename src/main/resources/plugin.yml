@@ -1,0 +1,8 @@
+name: Holograms
+version: '${project.version}'
+main: me.dieal.holograms.Holograms
+api-version: 1.19
+commands:
+  hologram:
+    description: This command allows you to create, remove or list holograms in your server
+    usage: /<command> [create|remove|list]
