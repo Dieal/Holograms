@@ -1,17 +1,16 @@
 package me.dieal.holograms.commands;
 
 import me.dieal.holograms.HologramsManager;
+import me.dieal.holograms.gui.HologramMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class HologramCommand implements CommandExecutor {
 
-    private HologramsManager manager;
+    private final HologramsManager manager;
 
     public HologramCommand (HologramsManager manager) {
         this.manager = manager;
@@ -24,13 +23,17 @@ public class HologramCommand implements CommandExecutor {
 
             if (strings.length == 1) {
 
+                if (strings[0].equalsIgnoreCase("create")) {
+                    player.sendMessage(ChatColor.RED + "Usage: /hologram create [text]");
+                }
+
                 if (strings[0].equalsIgnoreCase("delete")) {
-                    player.sendMessage("Select the hologram you want to remove");
+                    player.sendMessage(ChatColor.YELLOW + "Select the hologram you want to remove");
                     manager.setRemoving(player, true);
                 }
 
-                if (strings[0].equalsIgnoreCase("list")) {
-
+                if (strings[0].equalsIgnoreCase("menu")) {
+                    player.openInventory(HologramMenu.createMenu(player, manager));
                 }
 
             } else if (strings.length > 1) {
@@ -40,12 +43,12 @@ public class HologramCommand implements CommandExecutor {
                     for (int i = 1; i < strings.length; i++) {
                         message += strings[i] + " ";
                     }
-                    message.stripTrailing();
+                    message = message.stripTrailing();
                     manager.addHologram(player, message);
 
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "Usage: /hologram [text]");
+                player.sendMessage(ChatColor.RED + "Usage: /hologram [create|delete|list]");
             }
 
         }
